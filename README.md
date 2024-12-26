@@ -12,157 +12,135 @@ An AI-powered image analysis tool that generates detailed alt text, contextual i
 - 🎨 Modern, Responsive UI with styled-components
 
 ## Project Structure
-.
-├── backend/
-│ ├── app/
-│ │ ├── api/
-│ │ │ ├── routes.py # API endpoints
-│ │ ├── services/
-│ │ │ ├── vision_service.py
-│ │ │ └── sentiment_service.py
-│ ├── .env # Backend environment variables
-│ └── run.py # Backend entry point
-│
-└── frontend/
-├── src/
-│ ├── components/
-│ │ ├── UploadForm.js # Image upload component
-│ │ └── Spinner.js # Loading spinner
-│ ├── pages/
-│ │ ├── document.js # Next.js custom document
-│ │ ├── index.js # Home page
-│ │ └── upload.js # Upload page
-│ └── utils/
-│ └── api.js # API utilities
-└── .env.local # Frontend environment variables
 
+## Deployment on Vercel
 
-## Environment Setup
+### Frontend Deployment
 
-### Backend Environment (.env)
+1. **Prepare Frontend**
 
-env
-OpenAI API Key (optional)
-OPENAI_API_KEY=sk-your-openai-key
-Google Gemini API Key (optional)
-GEMINI_API_KEY=your-gemini-key
-Hugging Face API Key (required)
-Get from: https://huggingface.co/settings/tokens
-HUGGINGFACE_API_KEY=hf_your_huggingface_key
-FLASK_ENV=development
-DEBUG=True
+   ```bash
+   cd frontend
+   npm run build  # Test build locally first
+   ```
 
+2. **Install Vercel CLI**
 
-### Frontend Environment (.env.local)
-env
-NEXT_PUBLIC_API_URL=http://localhost:8000
+   ```bash
+   npm install -g vercel
+   ```
 
-## Quick Start
+3. **Deploy to Vercel**
 
-### Backend Setup
-bash
-Navigate to backend
-cd backend
-Create virtual environment and install dependencies
-pipenv install
-pipenv shell
-Start server
-python run.py
+   ```bash
+   vercel login
+   vercel
+   ```
 
+   Or deploy through Vercel Dashboard:
+   - Push your code to GitHub
+   - Import your repository in Vercel Dashboard
+   - Configure build settings:
 
-### Frontend Setup
-bash
-Navigate to frontend
-cd frontend
-Install dependencies
-yarn install
-or
-npm install
-Start development server
-yarn dev
-or
-npm run dev
+     ```
+     Build Command: npm run build
+     Output Directory: .next
+     Install Command: npm install
+     ```
 
-## API Endpoints
+   - Add environment variables:
 
-### Image Processing
-- `POST /api/process-image`
-  - Accepts multipart form data with image file
-  - Returns alt text, context, and sentiment analysis
+     ```
+     NEXT_PUBLIC_API_URL=https://your-backend-url.vercel.app
+     ```
 
-### Model Configuration
-- `POST /api/config/model`
-  - Switch between AI models (OpenAI, Gemini, Hugging Face)
+### Backend Deployment
 
-### Test Endpoints
-- `GET /api/test-huggingface` - Test Hugging Face connection
-- `GET /api/test-openai` - Test OpenAI connection
-- `GET /api/test-gemini` - Test Gemini connection
+1. **Prepare Backend**
+   - Create `vercel.json` in backend directory:
 
-## Getting API Keys
+   ```json:backend/vercel.json
+   {
+     "version": 2,
+     "builds": [
+       {
+         "src": "run.py",
+         "use": "@vercel/python"
+       }
+     ],
+     "routes": [
+       {
+         "src": "/(.*)",
+         "dest": "run.py"
+       }
+     ]
+   }
+   ```
 
-### Required
-1. **Hugging Face API Key**
-   - Visit https://huggingface.co/settings/tokens
-   - Create new token with 'read' access
-   - Add to `backend/.env` as `HUGGINGFACE_API_KEY`
+   - Create `requirements.txt`:
 
-### Optional
-1. **OpenAI API Key**
-   - Visit https://platform.openai.com/api-keys
-   - Add to `backend/.env` as `OPENAI_API_KEY`
+   ```bash
+   cd backend
+   pipenv lock -r > requirements.txt
+   ```
 
-2. **Google Gemini API Key**
-   - Visit https://makersuite.google.com/app/apikey
-   - Add to `backend/.env` as `GEMINI_API_KEY`
+2. **Deploy Backend**
+   ```bash
+   vercel
+   ```
 
-## Development
+   Or through Vercel Dashboard:
+   - Import your backend repository
+   - Configure build settings:
+     ```
+     Build Command: pip install -r requirements.txt
+     Output Directory: .
+     Install Command: python run.py
+     ```
+   - Add environment variables:
+     ```
+     HUGGINGFACE_API_KEY=your_key
+     OPENAI_API_KEY=your_key
+     GEMINI_API_KEY=your_key
+     ```
 
-### Tech Stack
-- Frontend: Next.js, styled-components, TypeScript
-- Backend: Flask, Prisma, Python
-- AI Services: OpenAI, Google Gemini, Hugging Face
+### Post-Deployment
 
-### Running Tests
-bash
-Frontend
-cd frontend
-yarn test
-Backend
-cd backend
-python -m pytest
+1. **Update Frontend API URL**
+   - Get your backend deployment URL from Vercel
+   - Update frontend environment variable:
+   ```
+   NEXT_PUBLIC_API_URL=https://your-backend-url.vercel.app
+   ```
 
+2. **Configure CORS**
+   - Update backend CORS settings in `app/__init__.py`:
+   ```python
+   CORS(app, resources={
+       r"/api/*": {
+           "origins": ["https://your-frontend-url.vercel.app"],
+           "methods": ["GET", "POST", "OPTIONS"]
+       }
+   })
+   ```
 
-### Code Style
-- Frontend: Airbnb JavaScript Style Guide
-- Backend: PEP 8
-- Enforced using ESLint and Prettier
+3. **Verify Deployment**
+   - Test frontend: `https://your-frontend-url.vercel.app`
+   - Test backend: `https://your-backend-url.vercel.app/api/test`
 
-## Contributing
+### Troubleshooting Deployment
 
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open Pull Request
+1. **Backend Issues**
+   - Check Vercel logs for Python errors
+   - Verify environment variables are set
+   - Test API endpoints using Postman
 
-## License
+2. **Frontend Issues**
+   - Check build logs in Vercel dashboard
+   - Verify API URL is correct
+   - Check browser console for CORS errors
 
-MIT License
-
-## Troubleshooting
-
-1. **API Key Issues**
-   - Verify keys are correctly set in `.env`
-   - Check API access permissions
-   - Ensure no whitespace in key values
-
-2. **Image Upload Issues**
-   - Check file size (max 10MB)
-   - Verify supported formats (JPG, PNG, GIF)
-   - Check browser console for errors
-
-3. **Backend Connection**
-   - Verify backend is running on port 8000
-   - Check CORS settings if needed
-   - Ensure `.env` files are properly loaded
+3. **Common Solutions**
+   - Redeploy after environment variable changes
+   - Clear Vercel cache if needed
+   - Check function execution timeout limits
