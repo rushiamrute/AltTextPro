@@ -14,6 +14,7 @@ google-generativeai = "*"
 langchain = "*"
 langchain-community = "*"
 requests = "*"
+textblob = "*"
 
 [dev-packages]
 

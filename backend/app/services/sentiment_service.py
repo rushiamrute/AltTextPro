@@ -1,22 +1,34 @@
-from openai import OpenAI
-from app.core.config import Config
+from textblob import TextBlob
 
 class SentimentService:
-    def __init__(self):
-        self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
-
-    def analyze_sentiment(self, description):
+    def analyze_sentiment(self, text: str) -> dict:
         try:
-            response = self.client.chat.completions.create(
-                model="gpt-4",
-                messages=[{
-                    "role": "system",
-                    "content": "Analyze the emotional content and sentiment of this image description. Return a JSON with: dominant_emotion, sentiment_score (-1 to 1), and emotional_elements list."
-                }, {
-                    "role": "user",
-                    "content": description
-                }]
-            )
-            return response.choices[0].message.content
+            # Use TextBlob for sentiment analysis
+            analysis = TextBlob(text)
+            
+            # Get polarity (-1 to 1) and subjectivity (0 to 1)
+            polarity = analysis.sentiment.polarity
+            subjectivity = analysis.sentiment.subjectivity
+            
+            # Determine sentiment label
+            if polarity > 0:
+                sentiment = "positive"
+            elif polarity < 0:
+                sentiment = "negative"
+            else:
+                sentiment = "neutral"
+                
+            # Extract emotional elements (keywords)
+            words = text.lower().split()
+            emotional_elements = [word for word in words if len(word) > 3][:5]
+            
+            return {
+                "polarity": polarity,
+                "subjectivity": subjectivity,
+                "sentiment": sentiment,
+                "emotional_elements": emotional_elements
+            }
+            
         except Exception as e:
+            print(f"Sentiment analysis error: {str(e)}")
             raise Exception(f"Sentiment analysis failed: {str(e)}")
