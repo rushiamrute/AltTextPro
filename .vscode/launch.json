@@ -1,0 +1,52 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: ALTCONTEXTPRO",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/app.py",
+            "args": [],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}",
+                "GOOGLE_API_KEY": "your-google-api-key-here",
+                "FLASK_APP": "run.py",
+                "FLASK_ENV": "development",
+                "FLASK_DEBUG": "1"
+            },
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Python: Flask",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "app.py",
+                "FLASK_ENV": "development",
+                "FLASK_DEBUG": "1",
+                "GOOGLE_API_KEY": "your-google-api-key-here"
+            },
+            "args": [
+                "run",
+                "--no-debugger",
+                "--no-reload"
+            ],
+            "jinja": true,
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "env": {
+                "GOOGLE_API_KEY": "your-google-api-key-here"
+            },
+            "justMyCode": true
+        }
+    ]
+}
