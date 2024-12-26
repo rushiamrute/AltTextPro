@@ -18,20 +18,17 @@ An AI-powered image analysis tool that generates detailed alt text, contextual i
 ### Frontend Deployment
 
 1. **Prepare Frontend**
-
    ```bash
    cd frontend
    npm run build  # Test build locally first
    ```
 
 2. **Install Vercel CLI**
-
    ```bash
    npm install -g vercel
    ```
 
 3. **Deploy to Vercel**
-
    ```bash
    vercel login
    vercel
@@ -41,15 +38,12 @@ An AI-powered image analysis tool that generates detailed alt text, contextual i
    - Push your code to GitHub
    - Import your repository in Vercel Dashboard
    - Configure build settings:
-
      ```
      Build Command: npm run build
      Output Directory: .next
      Install Command: npm install
      ```
-
    - Add environment variables:
-
      ```
      NEXT_PUBLIC_API_URL=https://your-backend-url.vercel.app
      ```
@@ -58,7 +52,6 @@ An AI-powered image analysis tool that generates detailed alt text, contextual i
 
 1. **Prepare Backend**
    - Create `vercel.json` in backend directory:
-
    ```json:backend/vercel.json
    {
      "version": 2,
@@ -78,7 +71,6 @@ An AI-powered image analysis tool that generates detailed alt text, contextual i
    ```
 
    - Create `requirements.txt`:
-
    ```bash
    cd backend
    pipenv lock -r > requirements.txt
