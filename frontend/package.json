@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "^14.0.0",
+    "next": "^14.2.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^5.0.0",
     "react-icons": "^4.12.0",
-    "styled-components": "^6.1.0"
+    "styled-components": "^6.1.0",
+    "vercel": "^32.3.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

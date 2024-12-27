@@ -1,0 +1,12 @@
+{
+  "name": "alttextpro",
+  "version": "1.0.0",
+  "description": "An AI-powered image analysis tool that generates detailed alt text, contextual information, and sentiment analysis for images using multiple AI models.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
