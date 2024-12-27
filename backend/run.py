@@ -1,4 +1,6 @@
 from app import create_app
+import sys
+sys.path.append("./dependencies")
 
 app = create_app()
 
